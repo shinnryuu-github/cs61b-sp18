@@ -12,13 +12,7 @@ public class NBody {
         double r = file.readDouble();
         Planet[] planets = new Planet[N];
         for (int i = 0; i < N; i++){
-            planets[i] = new Planet();
-            planets[i].xxPos = file.readDouble();
-            planets[i].yyPos = file.readDouble();
-            planets[i].xxVel = file.readDouble();
-            planets[i].yyVel = file.readDouble();
-            planets[i].mass = file.readDouble();
-            planets[i].imgFileName = file.readString();
+            planets[i] = new Planet(file.readDouble(), file.readDouble(),file.readDouble(),file.readDouble(),file.readDouble(),file.readString());
         }
         return planets;
     }
