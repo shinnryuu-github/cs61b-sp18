@@ -31,15 +31,7 @@ public class LinkedListDeque<T> {
         sentinel.next = sentinel;
         sentinel.prev = sentinel;
     }
-
-    public LinkedListDeque(T d){
-        size = 1;
-        sentinel = new Node();
-        Node add = new Node(d, sentinel, sentinel);
-        sentinel.next = add;
-        sentinel.prev = add;
-    }
-
+    
     public void addFirst(T item){
         if (this.isEmpty()){
             sentinel.next = new Node(item, sentinel, sentinel);
