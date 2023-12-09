@@ -1,8 +1,8 @@
-public class ArrayDeque<item> {
+public class ArrayDeque<T> {
     private int size, front, end;
-    private item[] Array;
+    private T[] Array;
 
-    public int get_index(int i){
+    private int get_index(int i){
         while (i < 0)
             i += Array.length;
         return i % Array.length;
@@ -12,25 +12,17 @@ public class ArrayDeque<item> {
         return size == 0;
     }
 
-    public boolean isFull(){
+    private boolean isFull(){
         return size == Array.length;
     }
 
     public ArrayDeque(){
         size = front = end = 0;
-        Array = (item[]) new Object[8];
+        Array = (T[]) new Object[8];
     }
 
-    public ArrayDeque(item x){
-        size = 1;
-        Array = (item[]) new Object[8];
-        Array[front] = x;
-        front = get_index(front - 1);
-        end = 0;
-    }
-
-    public void resize(int capacity){
-        item[] A = (item[]) new Object[capacity];
+    private void resize(int capacity){
+        T[] A = (T[]) new Object[capacity];
         System.arraycopy(Array, 0, A, 0, end);
         int lenth = Array.length - front;
         System.arraycopy(Array, front + 1, A, A.length - lenth, lenth - 1);
@@ -38,7 +30,7 @@ public class ArrayDeque<item> {
         front = A.length - lenth;
     }
 
-    public void addFirst(item x){
+    public void addFirst(T x){
         if (isFull())
             resize(size * 2);
         Array[front] = x;
@@ -46,7 +38,7 @@ public class ArrayDeque<item> {
         size++;
     }
 
-    public void addLast(item x){
+    public void addLast(T x){
         if (isFull())
             resize(size * 2);
         end = get_index(end + 1);
@@ -57,17 +49,17 @@ public class ArrayDeque<item> {
         return size;
     }
 
-    public item get(int index){
+    public T get(int index){
         return Array[index];
     }
 
-    public float usage_ratio(){
+    private float usage_ratio(){
         return (float) size / (float) Array.length;
     }
 
-    public item removeFirst(){
+    public T removeFirst(){
         front = get_index(front + 1);
-        item res = Array[front];
+        T res = Array[front];
         Array[front] = null;
         size--;
         if (Array.length >= 16 && this.usage_ratio() < 0.25){
@@ -76,8 +68,8 @@ public class ArrayDeque<item> {
         return res;
     }
 
-    public item removeLast(){
-        item res = Array[end];
+    public T removeLast(){
+        T res = Array[end];
         Array[end] = null;
         end = get_index(end - 1);
         size--;
