@@ -1,10 +1,8 @@
-import java.time.Instant;
-
 public class ArrayDeque<T> {
     private int size, front, end;
-    private T[] Array;
+    private T[] array;
 
-    private int get_index(int i, int l){
+    private int getIndex(int i, int l){
         while (i < 0)
             i += l;
         return i % l;
@@ -15,56 +13,56 @@ public class ArrayDeque<T> {
     }
 
     private boolean isFull(){
-        return size == Array.length;
+        return size == array.length;
     }
 
     public ArrayDeque(){
         size = 0;
         end = 0;
-        Array = (T[]) new Object[8];
-        front = Array.length - 1;
+        array = (T[]) new Object[8];
+        front = array.length - 1;
     }
 
     private void resize(int capacity){
         T[] A = (T[]) new Object[capacity];
-        if (capacity > Array.length){
-            int ptr1 = get_index(front + 1, Array.length), ptr2 = Array.length, real_end = get_index(end - 1, Array.length);
+        if (capacity > array.length){
+            int ptr1 = getIndex(front + 1, array.length), ptr2 = array.length, real_end = getIndex(end - 1, array.length);
             while (ptr1 != real_end) {
-                A[ptr2] = Array[ptr1];
-                ptr1 = get_index(ptr1 + 1, Array.length);
-                ptr2 = get_index(ptr2 + 1, A.length);
+                A[ptr2] = array[ptr1];
+                ptr1 = getIndex(ptr1 + 1, array.length);
+                ptr2 = getIndex(ptr2 + 1, A.length);
             }
-            A[ptr2] = Array[ptr1];
-            front = Array.length - 1;
-            end = get_index(ptr2 + 1, A.length);
+            A[ptr2] = array[ptr1];
+            front = array.length - 1;
+            end = getIndex(ptr2 + 1, A.length);
         }
         else {
-            int ptr1 = get_index(front + 1, Array.length), ptr2 = 1, real_end = get_index(end - 1, Array.length);
+            int ptr1 = getIndex(front + 1, array.length), ptr2 = 1, real_end = getIndex(end - 1, array.length);
             while (ptr1 != real_end){
-                A[ptr2] = Array[ptr1];
-                ptr1 = get_index(ptr1 + 1, Array.length);
-                ptr2 = get_index(ptr2 + 1, A.length);
+                A[ptr2] = array[ptr1];
+                ptr1 = getIndex(ptr1 + 1, array.length);
+                ptr2 = getIndex(ptr2 + 1, A.length);
             }
-            A[ptr2] = Array[ptr1];
+            A[ptr2] = array[ptr1];
             front = 0;
-            end = get_index(ptr2 + 1, A.length);
+            end = getIndex(ptr2 + 1, A.length);
         }
-        Array = A;
+        array = A;
     }
 
     public void addFirst(T x){
         if (isFull())
             resize(size * 2);
-        Array[front] = x;
-        front = get_index(front - 1, Array.length);
+        array[front] = x;
+        front = getIndex(front - 1, array.length);
         size++;
     }
 
     public void addLast(T x){
         if (isFull())
             resize(size * 2);
-        Array[end] = x;
-        end = get_index(end + 1, Array.length);
+        array[end] = x;
+        end = getIndex(end + 1, array.length);
         size++;
     }
     public int size(){
@@ -72,19 +70,19 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index){
-        index = get_index(front + 1 + index, Array.length);
-        return Array[index];
+        index = getIndex(front + 1 + index, array.length);
+        return array[index];
     }
 
     public T removeFirst(){
         if (isEmpty()){
             return null;
         }
-        front = get_index(front + 1, Array.length);
-        T res = Array[front];
-        Array[front] = null;
+        front = getIndex(front + 1, array.length);
+        T res = array[front];
+        array[front] = null;
         size--;
-        if (Array.length >= 16 && size < 0.25 * Array.length){
+        if (array.length >= 16 && size < 0.25 * array.length){
             resize(4 * size);
         }
         return res;
@@ -94,11 +92,11 @@ public class ArrayDeque<T> {
         if (isEmpty()){
             return null;
         }
-        end = get_index(end - 1, Array.length);
-        T res = Array[end];
-        Array[end] = null;
+        end = getIndex(end - 1, array.length);
+        T res = array[end];
+        array[end] = null;
         size--;
-        if (Array.length >= 16 && size < 0.25 * Array.length){
+        if (array.length >= 16 && size < 0.25 * array.length){
             resize(4 * size);
         }
         return res;
@@ -106,8 +104,8 @@ public class ArrayDeque<T> {
 
     public void printDeque(){
         for (int i = 0, j = front; i < size; i++){
-            j = get_index(j + 1, Array.length);
-            System.out.print(Array[j] + " ");
+            j = getIndex(j + 1, array.length);
+            System.out.print(array[j] + " ");
         }
     }
 
