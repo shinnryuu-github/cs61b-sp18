@@ -19,32 +19,44 @@ public class ArrayDeque<T> {
     }
 
     public ArrayDeque(){
-        size = front = end = 0;
+        size = 0;
+        end = 0;
         Array = (T[]) new Object[8];
+        front = Array.length - 1;
     }
 
     private void resize(int capacity){
         T[] A = (T[]) new Object[capacity];
-        System.arraycopy(Array, 0, A, 0, end + 1);
-        int lenth = Array.length - front;
-        System.arraycopy(Array, front, A, A.length - lenth, lenth);
+        if (isFull() && end == 0){
+            System.arraycopy(Array, 0, A, 0, Array.length);
+            front = A.length - 1;
+            end = Array.length;
+        } else if (isFull() && front == Array.length - 1) {
+            System.arraycopy(Array, 0, A, A.length - Array.length, Array.length);
+            front = A.length - Array.length;
+            end = 0;
+        }else {
+            System.arraycopy(Array, 0, A, 0, end);
+            int lenth = Array.length - front;
+            System.arraycopy(Array, front, A, A.length - lenth, lenth);
+            front = A.length - lenth;
+        }
         Array = A;
-        front = A.length - lenth;
     }
 
     public void addFirst(T x){
         if (isFull())
             resize(size * 2);
-        front = get_index(front - 1);
         Array[front] = x;
+        front = get_index(front - 1);
         size++;
     }
 
     public void addLast(T x){
         if (isFull())
             resize(size * 2);
-        end = get_index(end + 1);
         Array[end] = x;
+        end = get_index(end + 1);
         size++;
     }
     public int size(){
@@ -52,6 +64,7 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index){
+        index = get_index(front + 1 + index);
         return Array[index];
     }
 
@@ -60,9 +73,9 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst(){
+        front = get_index(front + 1);
         T res = Array[front];
         Array[front] = null;
-        front = get_index(front + 1);
         size--;
         if (Array.length >= 16 && this.usage_ratio() < 0.25){
             resize(4 * size);
@@ -71,9 +84,9 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast(){
+        end = get_index(end - 1);
         T res = Array[end];
         Array[end] = null;
-        end = get_index(end - 1);
         size--;
         if (Array.length >= 16 && this.usage_ratio() < 0.25){
             resize(4 * size);
@@ -88,11 +101,19 @@ public class ArrayDeque<T> {
         }
     }
 
-    public static void main(String[] args){
-        ArrayDeque<Integer> L = new ArrayDeque<>();
-        for (int i = 0; i < 100; i++){
-            L.addFirst(i);
-        }
-        L.printDeque();
+    private static void main(String[] args){
+        ArrayDeque<Integer> A = new ArrayDeque<>();
+        A.addFirst(0);
+        A.addFirst(1);
+        A.addFirst(2);
+        A.addFirst(3);
+        A.addFirst(4);
+        A.addFirst(5);
+        A.isEmpty();
+        A.addFirst(7);
+        A.addFirst(8);
+        A.addFirst(9);
+        int res = A.removeLast();
+        System.out.println(res);
     }
 }
