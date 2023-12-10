@@ -4,10 +4,10 @@ public class ArrayDeque<T> {
     private int size, front, end;
     private T[] Array;
 
-    private int get_index(int i){
+    private int get_index(int i, int l){
         while (i < 0)
-            i += Array.length;
-        return i % Array.length;
+            i += l;
+        return i % l;
     }
 
     public boolean isEmpty(){
@@ -27,19 +27,27 @@ public class ArrayDeque<T> {
 
     private void resize(int capacity){
         T[] A = (T[]) new Object[capacity];
-        if (isFull() && end == 0){
-            System.arraycopy(Array, 0, A, 0, Array.length);
-            front = A.length - 1;
-            end = Array.length;
-        } else if (isFull() && front == Array.length - 1) {
-            System.arraycopy(Array, 0, A, A.length - Array.length, Array.length);
-            front = A.length - Array.length;
-            end = 0;
-        }else {
-            System.arraycopy(Array, 0, A, 0, end);
-            int lenth = Array.length - front;
-            System.arraycopy(Array, front, A, A.length - lenth, lenth);
-            front = A.length - lenth;
+        if (capacity > Array.length){
+            int ptr1 = get_index(front + 1, Array.length), ptr2 = Array.length, real_end = get_index(end - 1, Array.length);
+            while (ptr1 != real_end) {
+                A[ptr2] = Array[ptr1];
+                ptr1 = get_index(ptr1 + 1, Array.length);
+                ptr2 = get_index(ptr2 + 1, A.length);
+            }
+            A[ptr2] = Array[ptr1];
+            front = Array.length - 1;
+            end = get_index(ptr2 + 1, A.length);
+        }
+        else {
+            int ptr1 = get_index(front + 1, Array.length), ptr2 = 1, real_end = get_index(end - 1, Array.length);
+            while (ptr1 != real_end){
+                A[ptr2] = Array[ptr1];
+                ptr1 = get_index(ptr1 + 1, Array.length);
+                ptr2 = get_index(ptr2 + 1, A.length);
+            }
+            A[ptr2] = Array[ptr1];
+            front = 0;
+            end = get_index(ptr2 + 1, A.length);
         }
         Array = A;
     }
@@ -48,7 +56,7 @@ public class ArrayDeque<T> {
         if (isFull())
             resize(size * 2);
         Array[front] = x;
-        front = get_index(front - 1);
+        front = get_index(front - 1, Array.length);
         size++;
     }
 
@@ -56,7 +64,7 @@ public class ArrayDeque<T> {
         if (isFull())
             resize(size * 2);
         Array[end] = x;
-        end = get_index(end + 1);
+        end = get_index(end + 1, Array.length);
         size++;
     }
     public int size(){
@@ -64,7 +72,7 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index){
-        index = get_index(front + 1 + index);
+        index = get_index(front + 1 + index, Array.length);
         return Array[index];
     }
 
@@ -72,7 +80,7 @@ public class ArrayDeque<T> {
         if (isEmpty()){
             return null;
         }
-        front = get_index(front + 1);
+        front = get_index(front + 1, Array.length);
         T res = Array[front];
         Array[front] = null;
         size--;
@@ -86,7 +94,7 @@ public class ArrayDeque<T> {
         if (isEmpty()){
             return null;
         }
-        end = get_index(end - 1);
+        end = get_index(end - 1, Array.length);
         T res = Array[end];
         Array[end] = null;
         size--;
@@ -98,7 +106,7 @@ public class ArrayDeque<T> {
 
     public void printDeque(){
         for (int i = 0, j = front; i < size; i++){
-            j = get_index(j + 1);
+            j = get_index(j + 1, Array.length);
             System.out.print(Array[j] + " ");
         }
     }
@@ -117,5 +125,14 @@ public class ArrayDeque<T> {
         A.addFirst(9);
         int res = A.removeLast();
         System.out.println(res);
+        A.printDeque();
+        A.removeLast();
+        A.removeLast();
+        A.removeLast();
+        A.removeLast();
+        res = A.removeLast();
+        System.out.println("");
+        System.out.println(res);
+        A.printDeque();
     }
 }
