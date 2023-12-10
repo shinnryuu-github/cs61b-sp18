@@ -68,27 +68,29 @@ public class ArrayDeque<T> {
         return Array[index];
     }
 
-    private float usage_ratio(){
-        return (float) size / (float) Array.length;
-    }
-
     public T removeFirst(){
+        if (isEmpty()){
+            return null;
+        }
         front = get_index(front + 1);
         T res = Array[front];
         Array[front] = null;
         size--;
-        if (Array.length >= 16 && this.usage_ratio() < 0.25){
+        if (Array.length >= 16 && size < 0.25 * Array.length){
             resize(4 * size);
         }
         return res;
     }
 
     public T removeLast(){
+        if (isEmpty()){
+            return null;
+        }
         end = get_index(end - 1);
         T res = Array[end];
         Array[end] = null;
         size--;
-        if (Array.length >= 16 && this.usage_ratio() < 0.25){
+        if (Array.length >= 16 && size < 0.25 * Array.length){
             resize(4 * size);
         }
         return res;
