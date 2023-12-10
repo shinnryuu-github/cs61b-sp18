@@ -1,3 +1,5 @@
+import java.time.Instant;
+
 public class ArrayDeque<T> {
     private int size, front, end;
     private T[] Array;
@@ -23,9 +25,9 @@ public class ArrayDeque<T> {
 
     private void resize(int capacity){
         T[] A = (T[]) new Object[capacity];
-        System.arraycopy(Array, 0, A, 0, end);
+        System.arraycopy(Array, 0, A, 0, end + 1);
         int lenth = Array.length - front;
-        System.arraycopy(Array, front + 1, A, A.length - lenth, lenth - 1);
+        System.arraycopy(Array, front, A, A.length - lenth, lenth);
         Array = A;
         front = A.length - lenth;
     }
@@ -33,8 +35,8 @@ public class ArrayDeque<T> {
     public void addFirst(T x){
         if (isFull())
             resize(size * 2);
-        Array[front] = x;
         front = get_index(front - 1);
+        Array[front] = x;
         size++;
     }
 
@@ -58,9 +60,9 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst(){
-        front = get_index(front + 1);
         T res = Array[front];
         Array[front] = null;
+        front = get_index(front + 1);
         size--;
         if (Array.length >= 16 && this.usage_ratio() < 0.25){
             resize(4 * size);
@@ -86,4 +88,11 @@ public class ArrayDeque<T> {
         }
     }
 
+    public static void main(String[] args){
+        ArrayDeque<Integer> L = new ArrayDeque<>();
+        for (int i = 0; i < 100; i++){
+            L.addFirst(i);
+        }
+        L.printDeque();
+    }
 }
