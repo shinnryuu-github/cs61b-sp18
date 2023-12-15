@@ -31,7 +31,7 @@ public class TestArrayDequeGold {
                     size--;
                     expected = solution.removeFirst();
                     actuall = student.removeFirst();
-                    message += "removeFirst\n";
+                    message += "removeFirst()\n";
                 }
                 else if (randomnumber == 1) {
                     solution.addFirst(randomadd);
@@ -43,7 +43,7 @@ public class TestArrayDequeGold {
                     size--;
                     expected = solution.removeLast();
                     actuall = student.removeLast();
-                    message += "removeLast\n";
+                    message += "removeLast()\n";
                 }
                 else {
                     solution.addLast(randomadd);
