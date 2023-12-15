@@ -51,8 +51,8 @@ public class TestArrayDequeGold {
                     size++;
                     message += "addLast(" + randomadd + ")\n";
                 }
+                assertEquals(message, expected, actuall);
             }
-            assertEquals(message, expected, actuall);
         }
     }
 }
