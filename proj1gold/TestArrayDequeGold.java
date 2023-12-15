@@ -12,7 +12,7 @@ public class TestArrayDequeGold {
             int randomadd = StdRandom.uniform(1000);
             Integer expected = 1, actuall = 1;
             if (size == 0) {
-                int randomnumber = StdRandom.uniform(1);
+                int randomnumber = StdRandom.uniform(2);
                 if (randomnumber == 0) {
                     solution.addFirst(randomadd);
                     student.addFirst(randomadd);
