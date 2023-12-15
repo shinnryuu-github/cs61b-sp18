@@ -28,7 +28,7 @@ public class TestArrayDequeGold {
                 expected = solution.removeFirst();
                 actuall = student.removeFirst();
                 message[count++] = "removeFirst";
-                String realmessage = "\n";
+                String realmessage = "";
                 for (i = 0; i < count; i++)
                     realmessage += message[i] + "\n";
                 assertEquals(realmessage, expected, actuall);
@@ -44,7 +44,7 @@ public class TestArrayDequeGold {
                 expected = solution.removeLast();
                 actuall = student.removeLast();
                 message[count++] = "removeLast";
-                String realmessage = "\n";
+                String realmessage = "";
                 for (i = 0; i < count; i++)
                     realmessage += message[i] + "\n";
                 assertEquals(realmessage, expected, actuall);
