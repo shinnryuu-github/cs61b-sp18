@@ -7,53 +7,48 @@ public class TestArrayDequeGold {
         StudentArrayDeque<Integer> student = new StudentArrayDeque<>();
         ArrayDequeSolution<Integer> solution = new ArrayDequeSolution<>();
         int count = 0, size = 0;
-        String[] message = new String[200];
-        for (int i = 0; i < 100; i++){
+        String message = "";
+        for (int i = 0; i < 1000; i++){
             int randomnumber = StdRandom.uniform(4);
+            int randomadd = StdRandom.uniform(1000);
             Integer expected, actuall;
             if (randomnumber == 0){
-                solution.addFirst(i);
-                student.addFirst(i);
+                solution.addFirst(randomadd);
+                student.addFirst(randomadd);
                 size++;
-                message[count++] = "addFirst(" + i + ")";
+                message += "addFirst(" + randomadd + ")\n";
             }
             else if (randomnumber == 1){
-                solution.addLast(i);
-                student.addLast(i);
+                solution.addLast(randomadd);
+                student.addLast(randomadd);
                 size++;
-                message[count++] = "addLast(" + i + ")";
+                message +="addLast(" + randomadd + ")\n";
             }
             else if (randomnumber == 2 && size != 0) {
                 size--;
                 expected = solution.removeFirst();
                 actuall = student.removeFirst();
-                message[count++] = "removeFirst";
-                String realmessage = "";
-                for (i = 0; i < count; i++)
-                    realmessage += message[i] + "\n";
-                assertEquals(realmessage, expected, actuall);
+                message += "removeFirst\n";
+                assertEquals(message, expected, actuall);
             }
             else if (randomnumber == 2 && size == 0) {
-                solution.addFirst(i);
-                student.addFirst(i);
+                solution.addFirst(randomadd);
+                student.addFirst(randomadd);
                 size++;
-                message[count++] = "addFirst(" + i + ")";
+                message += "addFirst(" + randomadd + ")\n";
             }
             else if (randomnumber == 3 && size != 0) {
                 size--;
                 expected = solution.removeLast();
                 actuall = student.removeLast();
-                message[count++] = "removeLast";
-                String realmessage = "";
-                for (i = 0; i < count; i++)
-                    realmessage += message[i] + "\n";
-                assertEquals(realmessage, expected, actuall);
+                message += "removeLast\n";
+                assertEquals(message, expected, actuall);
             }
             else {
-                solution.addLast(i);
-                student.addLast(i);
+                solution.addLast(randomadd);
+                student.addLast(randomadd);
                 size++;
-                message[count++] = "addLast(" + i + ")";
+                message += "addLast(" + randomadd + ")\n";
             }
         }
     }
